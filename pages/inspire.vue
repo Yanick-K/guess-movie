@@ -3,16 +3,12 @@
     <div class="columns is-mobile mb-6">
       <div class="column has-text-centered">
         <span class="is-size-4"
-          >Find the movie where this image is coming from :
+          >Find the movie where this review is coming from :
         </span>
-        <b-image
-        class=" mt-6"
-          :src="base_url + width + moviecache.backdrop_path"
-          ratio="16by9"
-        ></b-image>
+        <b-message class="mt-6"> {{ review.substring(0, 280) + ".." }} </b-message>
       </div>
     </div>
-    <b-progress
+     <b-progress
       v-if="progress"
       type="is-info"
       :value="valueprogress"
@@ -25,7 +21,9 @@
         @click="revealresponse(elem, index)"
       >
         <div class="card-image">
-            <b-image :src="base_url + width + moviecache.backdrop_path" ratio="16by9"></b-image>
+          <figure class="image is-3by4">
+            <img :src="get_path_img(elem)" :alt="elem.title" />
+          </figure>
         </div>
         <div class="card-content">
           <div class="media">
@@ -99,7 +97,6 @@ export default {
   },
   data() {
     return {
-      movieImage: "",
       review: "",
       error: false,
       moviecache: {},
@@ -134,6 +131,7 @@ export default {
       setTimeout(() => loadingComponent.close(), 3 * 1000);*/
     },
     shuffle(a) {
+      console.log(this.response.length);
       for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];
@@ -167,11 +165,28 @@ export default {
             rand
         )
         .then((resp) => {
-            let i = 0;
           let rand = this.randomize_num(0, resp.data.results.length);
           this.moviecache = resp.data.results[rand];
-          while (i++ < this.numberResponse) this.get_random_movie();
-          this.response.push(this.moviecache);
+          axios
+            .get(
+              "https://api.themoviedb.org/3/movie/" +
+                resp.data.results[rand].id +
+                "/reviews?api_key=f685eb45230fedab8e47d4fbcdeb5b2b"
+            )
+            .then((resp) => {
+              let len = resp.data.results.length;
+              let rand = 0;
+              if (len) {
+                if (len > 1) rand = this.randomize_num(0, len);
+                let i = 0;
+                while (i++ < this.numberResponse) this.get_random_movie();
+                this.review = resp.data.results[rand].content.replaceAll(this.moviecache.title, '*******');
+                this.response.push(this.moviecache);
+              } else if (!resp.data.results.length && count < 10) {
+                count++;
+                this.recursive_call_ajax();
+              } else this.error = true;
+            });
         });
     },
     getconfig() {

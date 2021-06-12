@@ -3,13 +3,11 @@
     <div class="columns is-mobile mb-6">
       <div class="column has-text-centered">
         <span class="is-size-4"
-          >Find the movie where this image is coming from :
+          >Find the movie where this synopsis is coming from :
         </span>
-        <b-image
-        class=" mt-6"
-          :src="base_url + width + moviecache.backdrop_path"
-          ratio="16by9"
-        ></b-image>
+        <b-message class="mt-6">
+          {{ overview.substring(0, 280) + ".." }}
+        </b-message>
       </div>
     </div>
     <b-progress
@@ -25,7 +23,9 @@
         @click="revealresponse(elem, index)"
       >
         <div class="card-image">
-            <b-image :src="base_url + width + moviecache.backdrop_path" ratio="16by9"></b-image>
+          <figure class="image is-3by4">
+            <img :src="get_path_img(elem)" :alt="elem.title" />
+          </figure>
         </div>
         <div class="card-content">
           <div class="media">
@@ -99,8 +99,7 @@ export default {
   },
   data() {
     return {
-      movieImage: "",
-      review: "",
+      overview: "",
       error: false,
       moviecache: {},
       response: [],
@@ -167,10 +166,11 @@ export default {
             rand
         )
         .then((resp) => {
-            let i = 0;
           let rand = this.randomize_num(0, resp.data.results.length);
           this.moviecache = resp.data.results[rand];
+          let i = 0;
           while (i++ < this.numberResponse) this.get_random_movie();
+          this.overview = resp.data.results[rand].overview;
           this.response.push(this.moviecache);
         });
     },
@@ -195,7 +195,6 @@ export default {
         var value = this;
         setInterval(function () {
           value.valueprogress += 10;
-          console.log(value.valueprogress);
         }, 200);
         setTimeout(function () {
           window.location.reload();

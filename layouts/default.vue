@@ -8,31 +8,19 @@
       </template>
       <template slot="start">
         <b-navbar-dropdown label="Guess the movie">
-          <b-navbar-item tag="nuxt-link" :to="{ path: '/inspire' }">
+          <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
             Since images
           </b-navbar-item>
-          <b-navbar-item> Since titles </b-navbar-item>
-          <b-navbar-item> Since synopsis </b-navbar-item>
-          <b-navbar-item> Since dates </b-navbar-item>
-          <b-navbar-item tag="nuxt-link" :to="{ path: '/' }">
+       <!--   <b-navbar-item> Since titles </b-navbar-item> !-->
+          <b-navbar-item  tag="nuxt-link" :to="{ path: '/synopsis' }"> Since synopsis </b-navbar-item>
+        <!--  <b-navbar-item> Since dates </b-navbar-item> !-->
+          <b-navbar-item tag="nuxt-link" :to="{ path: '/inspire' }">
             Since reviews
           </b-navbar-item>
         </b-navbar-dropdown>
-        <b-navbar-item href="#"> Top guess </b-navbar-item>
-        <b-navbar-item tag="nuxt-link" :to="{ path : '/random-movie'}"> Random movie </b-navbar-item>
+      <!-- <b-navbar-item tag="nuxt-link" :to="{ path : '/random-movie'}"> Random movie </b-navbar-item> !-->
         <b-navbar-item tag="nuxt-link" :to="{ path: '/watchtonight' }">
           Random movie to watch
-        </b-navbar-item>
-      </template>
-
-      <template slot="end">
-        <b-navbar-item tag="div">
-          <div class="buttons">
-            <a class="button is-primary">
-              <strong>Sign up</strong>
-            </a>
-            <a class="button is-light"> Log in </a>
-          </div>
         </b-navbar-item>
       </template>
     </b-navbar>
@@ -44,7 +32,7 @@
     <footer class="footer">
       <div class="content has-text-centered">
         <p>
-          <strong>Find The Movie</strong> by <a href="#">Yanumaru</a>. The
+          <strong>Guess The Movie</strong> by <a href="https://twitter.com/yanoudev">Yanumaru</a>. The
           website content is licensed
           <a href="https://www.themoviedb.org/">TMDB</a>.
         </p>
