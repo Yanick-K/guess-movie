@@ -12,7 +12,7 @@
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.23.4",
     "nuxt": "^2.14.6",
-    "nuxt-buefy": "^0.4.23"
+    "nuxt-buefy": "^0.4.25"
   },
   "devDependencies": {
     "node-sass": "^7.0.1",
